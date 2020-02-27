@@ -1,21 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import { Button } from '@heetch/flamingo-react';
+import { fetchNavigation } from './lib/api';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Heading } from '@heetch/flamingo-react';
+import Sidebar from './components/Sidebar';
+import NoMatch from './components/NoMatch';
 
 function App() {
+  const [navigation, setNavigation] = useState(undefined);
+
+  useEffect(() => {
+    fetchNavigation().then(setNavigation);
+  }, []);
+
+  if (navigation === undefined) {
+    return <div className="AppLoader" />;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Button onClick={() => alert('BUTTON!')}>Pretty button</Button>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Sidebar tree={navigation.tree} />
+
+        <section>
+          <Switch>
+            <Route exact path="/">
+              <Heading level={1}>Home</Heading>
+            </Route>
+            <Route path="/products">
+              <Heading level={1}>Products</Heading>
+            </Route>
+            <Route path="/cities/:country">
+              <Heading level={1}>Cities</Heading>
+            </Route>
+            <Route path="*">
+              <NoMatch />
+            </Route>
+          </Switch>
+        </section>
+      </Router>
     </div>
   );
 }
