@@ -6,6 +6,7 @@ import { Heading } from '@heetch/flamingo-react';
 import Sidebar from './components/Sidebar';
 import NoMatch from './components/NoMatch';
 import ProductsPage from './components/ProductsPage';
+import CitiesPage from './components/CitiesPage';
 
 function App() {
   const [navigation, setNavigation] = useState(undefined);
@@ -32,7 +33,7 @@ function App() {
               <ProductsPage actions={navigation.actions['/products']} />
             </Route>
             <Route path="/cities/:country">
-              <Heading level={1}>Cities</Heading>
+              <CitiesPage actionsMap={navigation.actions} />
             </Route>
             <Route path="*">
               <NoMatch />

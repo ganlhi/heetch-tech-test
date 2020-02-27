@@ -1,5 +1,5 @@
 import { Actions } from '../lib/proptypes';
-import { Alert, Spinner, Table, Text } from '@heetch/flamingo-react';
+import { Alert, Heading, Spinner, Table, Text } from '@heetch/flamingo-react';
 import React, { useEffect, useState } from 'react';
 import { fetchProducts } from '../lib/api';
 
@@ -25,15 +25,18 @@ function ProductsPage({ actions }) {
   }
 
   return (
-    <Table
-      columns={[
-        { Header: 'Product name', accessor: 'name' },
-        { Header: 'Description', accessor: 'description' },
-        { Header: 'Status', accessor: 'status' },
-      ]}
-      data={products}
-      isSortable={true}
-    />
+    <>
+      <Heading level={2}>Products</Heading>
+      <Table
+        columns={[
+          { Header: 'Name', accessor: 'name' },
+          { Header: 'Description', accessor: 'description' },
+          { Header: 'Status', accessor: 'status' },
+        ]}
+        data={products}
+        isSortable={true}
+      />
+    </>
   );
 }
 
