@@ -3,12 +3,16 @@ import { Alert, Heading, Spinner, Table, Text } from '@heetch/flamingo-react';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchCities } from '../lib/api';
+import NoMatch from './NoMatch';
 
 function CitiesPage({ actionsMap }) {
   const { pathname } = useLocation();
   const [countryCities, setCountryCities] = useState();
 
-  const actions = actionsMap[pathname];
+  let actions;
+  if (actionsMap.hasOwnProperty(pathname)) {
+    actions = actionsMap[pathname] || { show: false };
+  }
 
   useEffect(() => {
     if (actions && actions.getItems) {
@@ -20,7 +24,11 @@ function CitiesPage({ actionsMap }) {
     setCountryCities(undefined);
   }, [pathname]);
 
-  if (!actions || actions.show !== true) {
+  if (!actions) {
+    return <NoMatch />;
+  }
+
+  if (actions.show !== true) {
     return <Alert type="error">You are not allowed to display this page</Alert>;
   }
 
