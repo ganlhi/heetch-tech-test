@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Heading } from '@heetch/flamingo-react';
 import Sidebar from './components/Sidebar';
 import NoMatch from './components/NoMatch';
+import ProductsPage from './components/ProductsPage';
 
 function App() {
   const [navigation, setNavigation] = useState(undefined);
@@ -28,7 +29,7 @@ function App() {
               <Heading level={1}>Home</Heading>
             </Route>
             <Route path="/products">
-              <Heading level={1}>Products</Heading>
+              <ProductsPage actions={navigation.actions['/products']} />
             </Route>
             <Route path="/cities/:country">
               <Heading level={1}>Cities</Heading>
