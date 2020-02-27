@@ -1,96 +1,68 @@
-# Heetch front-end candidate challenge
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Prerequisites
+## Available Scripts
 
-As a Frontend engineer at Heetch you will touch multiple sides of the business building both customer facing and internal based web applications.
+In the project directory, you can run:
 
-Almost all of our services are permission based, meaning that as an engineer you have to always be mindful of adhering to the security and permission logic that control a service.
+### `yarn start`
 
-## Your task
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Create a single page web application with a multi level navigation. This navigation will form the foundation of the web app. The contents of the navigation will be populated dynamically from hitting a `permissions` web service. More details are described below.
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-### Timeline
+### `yarn test`
 
-The task usually takes around 15-20 hours in total to be completed. Obviously you'll do it in chunks. We'd however ideally receive your solution within a week. It's also ok if you need a little more time. Just let us know.
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Stack
+### `yarn build`
 
-- **React** is our most common framework of choice, thus it would be a preferred tool to use for this implementation.
-- Any other tools/components are absolutely of your choice.
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### Code of conduct
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-- Create a new branch, commit and push to this branch.
-- Include a detailed `README.md`. Explain how to run the tests and start the app.
-- Submit a pull request once you are done.
-- Provide a detailed overview when creating your PR explaining any technical choices you have made.
-- **If you come across any blocker while developing this application, feel free to open an issue within this repo at any time, and our developers will be on their way to help you.**
-- If you have any suggestions on how we could improve the challenge, don't hesitate to include that in the PR description as well! We value creativity and new ideas.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Product requirements
+### `yarn eject`
 
-1. Implement a multi level navigation (this means that each element is either link to a route or expands another, deeper level of the navigation)
-2. The content of the navigation should be populated from the `permissions` endpoint
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-- Top level menu items are being built based on `keys` of JSON object returned from `permissions`
-- Sub items are held in `children` property of the object
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-3. Items in the navigation should be ordered by `order` attribute in item object
-4. Name of the  item is taken from the object key, e.g.:
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-```
-...
-products: {
-    order: 1,
-    actions: {
-...
-```
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-creates `Products` menu item.
+## Learn More
 
-5. Implement possibility of listing all cities per country and all products, taking into consideration the permissions
-6. Implement possibility of adding, editing and saving the country and product
-7. Each of the navigation items and route permissions are determined by each blocks `actions` object. If the `action` value is missing consider it `false`
-8. Your application should implement 3 routes:
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-- `/`
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-  - The root page of the application and will be the starting point of the app
+### Code Splitting
 
-- `/products`
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-  - Display a list of products.
-  - Ability to update an existing product from the list.
-  - Ability to add a new product
+### Analyzing the Bundle Size
 
-- `/cities`
-  - Display a list of Cities.
-  - Ability to update an existing city from the list.
-  - Ability to add a new city
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### What will we assess
+### Making a Progressive Web App
 
-- Fulfilling all requirements
-- App functionality
-- Your knowledge on using React and JavaScript
-- Code cleanliness
-- How you approach app architecture
-- How you ensure your app stability
-- Documentation
-- Design itself will not be a deciding factor on this test, and you will not be judged on design.
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-Due to time limitation we don't expect flawless or production-ready code. Just do your best under the given constrains.
+### Advanced Configuration
 
-## API
-- [`/permissions`](apiDoc/permissions.md)
-- [`/cities`](apiDoc/cities.md)
-- [`/products`](apiDoc/products.md)
-- [Errors](apiDoc/errors.md)
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-## Bonus
+### Deployment
 
-1. Demonstrate or describe clear ways in which you would improve the UX
-2. Make the UI great!
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-**That's it 😀 We wish you well in the above challenge, and we look forward to reviewing your PR 🚀**
+### `yarn build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
