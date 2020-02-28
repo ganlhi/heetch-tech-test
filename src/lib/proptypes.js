@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
 
+/**
+ * Actions permitted for a given slug
+ */
+
 export const Actions = PropTypes.shape({
   show: PropTypes.bool,
   getItems: PropTypes.shape({ type: PropTypes.string.isRequired, URL: PropTypes.string.isRequired }),
@@ -8,6 +12,10 @@ export const Actions = PropTypes.shape({
 });
 
 export const ActionsMap = PropTypes.objectOf(Actions.isRequired);
+
+/**
+ * Navigation menu items
+ */
 
 const NavigationItem = {
   name: PropTypes.string.isRequired,
@@ -18,3 +26,15 @@ const NavigationItemShape = PropTypes.shape(NavigationItem);
 NavigationItem.children = PropTypes.arrayOf(NavigationItemShape);
 
 export { NavigationItemShape };
+
+/**
+ * Products
+ */
+
+export const Product = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  order: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  status: PropTypes.string,
+});

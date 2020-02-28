@@ -1,20 +1,9 @@
 import { Actions } from '../lib/proptypes';
-import {
-  Alert,
-  Button,
-  Heading,
-  IconButton,
-  Input,
-  Label,
-  Popover,
-  SidePanel,
-  Spinner,
-  Table,
-  Text,
-  Textarea,
-} from '@heetch/flamingo-react';
+import { Alert, Button, Heading } from '@heetch/flamingo-react';
 import React, { useEffect, useState } from 'react';
 import { fetchProducts, saveProduct } from '../lib/api';
+import ProductsList from './ProductsList';
+import EditPanel from './EditPanel';
 
 function ProductsPage({ actions }) {
   const [products, setProducts] = useState(undefined);
@@ -46,11 +35,11 @@ function ProductsPage({ actions }) {
     setEditedProduct(undefined);
   }
 
-  function completeEdit() {
+  function completeEdit({ name, description }) {
     if (!editedProduct) return;
     const action = !editedProduct.id ? actions.addItem : actions.updateItem;
     setSaving(true);
-    saveProduct(action.URL, action.type, editedProduct)
+    saveProduct(action.URL, action.type, { ...editedProduct, name, description })
       .then(() => loadProductsList())
       .then(products => {
         setSaving(false);
@@ -59,30 +48,8 @@ function ProductsPage({ actions }) {
       });
   }
 
-  function handleChangeName(event) {
-    if (!editedProduct) return;
-    setEditedProduct({ ...editedProduct, name: event.target.value });
-  }
-
-  function handleChangeDescription(event) {
-    if (!editedProduct) return;
-    setEditedProduct({ ...editedProduct, description: event.target.value });
-  }
-
-  function isFormValid() {
-    return editedProduct && editedProduct.name.length > 0;
-  }
-
   if (!actions || actions.show !== true) {
     return <Alert type="error">You are not allowed to display this page</Alert>;
-  }
-
-  if (!products) {
-    return (
-      <Text style={{ textAlign: 'center' }}>
-        <Spinner /> Loading products...
-      </Text>
-    );
   }
 
   return (
@@ -92,70 +59,15 @@ function ProductsPage({ actions }) {
         <Button onClick={() => startCreate()}>Add</Button>
       </header>
 
-      <Table
-        columns={[
-          { Header: 'Name', accessor: 'name' },
-          { Header: 'Description', accessor: 'description' },
-          { Header: 'Status', accessor: 'status' },
-          {
-            Header: '',
-            accessor: '',
-            id: 'actions',
-            Cell: ({ row }) => (
-              <Popover content="Edit product">
-                <IconButton icon="IconPen" size="s" onClick={() => startEdit(row.original)}>
-                  Test
-                </IconButton>
-              </Popover>
-            ),
-          },
-        ]}
-        data={products}
+      <ProductsList products={products} onStartEdit={startEdit} />
+
+      <EditPanel
+        title={editedProduct?.id ? 'Update product' : 'Add new product'}
+        values={editedProduct}
+        saving={saving}
+        onSave={completeEdit}
+        onCancel={cancelEdit}
       />
-      <SidePanel
-        isOpen={editedProduct !== undefined}
-        closesOnOverlayClick
-        onClose={() => cancelEdit()}
-        footer={
-          <>
-            <Button intent="secondary" variant="minimal" onClick={() => cancelEdit()} disabled={saving}>
-              Cancel
-            </Button>
-            <Button onClick={() => completeEdit()} disabled={!isFormValid() || saving}>
-              Save
-            </Button>
-          </>
-        }
-      >
-        {editedProduct && (
-          <>
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                onChange={handleChangeName}
-                id="name"
-                value={editedProduct.name}
-                invalid={!isFormValid()}
-                disabled={saving}
-              />
-            </div>
-            <div>
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                onChange={handleChangeDescription}
-                id="description"
-                value={editedProduct.description}
-                disabled={saving}
-              />
-            </div>
-            {saving && (
-              <Text>
-                <Spinner /> Saving...
-              </Text>
-            )}
-          </>
-        )}
-      </SidePanel>
     </>
   );
 }
