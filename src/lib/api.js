@@ -65,6 +65,13 @@ export function fetchProducts(url, method) {
     .then(({ products }) => Object.values(products).sort(compareByOrder));
 }
 
+export function saveProduct(url, method, product) {
+  const { id, name, description } = product;
+  const completeUrl = !id ? url : url.replace('{id}', id);
+
+  return fetch(completeUrl, { method, body: JSON.stringify({ name, description }) });
+}
+
 /**
  * Cities
  */
