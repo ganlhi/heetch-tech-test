@@ -89,7 +89,7 @@ export function saveProduct(url, method, product) {
  */
 
 export function getCountryCode(actions) {
-  if (!actions || !actions.getItems) return undefined;
+  if (!actions || !actions.getItems || !actions.getItems.URL) return undefined;
   const matches = actions.getItems.URL.match(/countryCode=([^&]+)/);
   if (matches && matches.length > 1) {
     return matches[1];

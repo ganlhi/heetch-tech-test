@@ -1,6 +1,6 @@
-import { permissionsToNavigation } from './api';
+import { getCountryCode, permissionsToNavigation } from './api';
 
-test('can build navigation from permissions', () => {
+test('permissionsToNavigation', () => {
   const permissions = {
     a: {
       order: 2,
@@ -59,5 +59,31 @@ test('can build navigation from permissions', () => {
       '/ac': { show: true, getItems: { type: 'GET', URL: '/a/ac' } },
       '/c': { show: true, getItems: { type: 'GET', URL: '/c' } },
     },
+  });
+});
+
+describe('getCountryCode', () => {
+  test('fails on no actions', () => {
+    expect(getCountryCode(undefined)).toBeUndefined();
+    expect(getCountryCode(null)).toBeUndefined();
+  });
+
+  test('fails if no getItems action', () => {
+    expect(getCountryCode({ show: true })).toBeUndefined();
+  });
+
+  test('fails if invalid getItems action', () => {
+    expect(getCountryCode({ getItems: true })).toBeUndefined();
+    expect(getCountryCode({ getItems: {} })).toBeUndefined();
+  });
+
+  test('fails if URL does not contain country code', () => {
+    expect(getCountryCode({ getItems: { type: 'GET', URL: 'http://host/cities?foo=123&bar=abc' } })).toBeUndefined();
+  });
+
+  test('gets the correct country code', () => {
+    expect(
+      getCountryCode({ getItems: { type: 'GET', URL: 'http://host/cities?foo=123&countryCode=XY&bar=abc' } })
+    ).toBe('XY');
   });
 });
