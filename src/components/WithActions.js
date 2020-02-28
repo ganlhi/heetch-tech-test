@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from '../lib/proptypes';
 import { Alert, Button, Heading } from '@heetch/flamingo-react';
@@ -18,17 +18,17 @@ function WithActions({ actions, title, itemName, fetchItems, saveItem, renderLis
   const [editedItem, setEditedItem] = useState(undefined);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    setItems(undefined);
-    loadItems().then(setItems);
-  }, [actions]);
-
-  function loadItems() {
+  const loadItems = useCallback(() => {
     if (actions && actions.getItems) {
       return fetchItems(actions.getItems.URL, actions.getItems.type);
     }
     return Promise.reject('Not permitted');
-  }
+  }, [actions, fetchItems]);
+
+  useEffect(() => {
+    setItems(undefined);
+    loadItems().then(setItems);
+  }, [loadItems]);
 
   function startCreate() {
     if (!actions.addItem) return;
