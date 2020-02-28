@@ -84,6 +84,15 @@ export function saveProduct(url, method, product) {
  * Cities
  */
 
+export function getCountryCode(actions) {
+  if (!actions || !actions.getItems) return undefined;
+  const matches = actions.getItems.URL.match(/countryCode=([^&]+)/);
+  if (matches && matches.length > 1) {
+    return matches[1];
+  }
+  return undefined;
+}
+
 export function fetchCities(url, method) {
   return fetch(url, { method })
     .then(res => res.json())
@@ -92,4 +101,19 @@ export function fetchCities(url, method) {
       capital,
       cities: Object.values(cities).sort(compareByOrder),
     }));
+}
+
+export function saveCity(url, method, countryCode, city) {
+  const { id, name, description } = city;
+  const completeUrl = !id ? url : url.replace('{id}', id);
+  const body = !id ? { name, description, countryCode } : { name, description, countryCode, id };
+
+  return fetch(completeUrl, {
+    method,
+    body: JSON.stringify(body),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
 }
