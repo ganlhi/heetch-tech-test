@@ -66,13 +66,17 @@ export function fetchProducts(url, method) {
 }
 
 export function saveProduct(url, method, product) {
-  const { id, name, description } = product;
-  const completeUrl = !id ? url : url.replace('{id}', id);
-  const body = !id ? { name, description } : { name, description, id };
+  let completeUrl;
+
+  if (product.id) {
+    completeUrl = url.replace('{id}', product.id);
+  } else {
+    completeUrl = url;
+  }
 
   return fetch(completeUrl, {
     method,
-    body: JSON.stringify(body),
+    body: JSON.stringify(product),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -104,13 +108,17 @@ export function fetchCities(url, method) {
 }
 
 export function saveCity(url, method, countryCode, city) {
-  const { id, name, description } = city;
-  const completeUrl = !id ? url : url.replace('{id}', id);
-  const body = !id ? { name, description, countryCode } : { name, description, countryCode, id };
+  let completeUrl;
+
+  if (city.id) {
+    completeUrl = url.replace('{id}', city.id);
+  } else {
+    completeUrl = url;
+  }
 
   return fetch(completeUrl, {
     method,
-    body: JSON.stringify(body),
+    body: JSON.stringify({ ...city, countryCode }),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
