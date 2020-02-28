@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Input, Label, SidePanel, Spinner, Text, Textarea } from '@heetch/flamingo-react';
 
+/**
+ * Generic component displaying a form in a sliding side panel, allowing to edit name and description of a given item
+ * @param title Title of the panel
+ * @param values Initial name and description
+ * @param onCancel Callback to cancel the edition
+ * @param onSave Callback to submit the values of the form
+ * @param saving Is the form data being saved?
+ */
 function EditPanel({ title, values, onCancel, onSave, saving }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');

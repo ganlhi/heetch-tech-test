@@ -4,6 +4,10 @@ import { fetchProducts, saveProduct } from '../lib/api';
 import ProductsList from './ProductsList';
 import WithActions from './WithActions';
 
+/**
+ * Routed component allowing to display, create and update products
+ * @param actions permitted actions for this page
+ */
 function ProductsPage({ actions }) {
   return (
     <WithActions

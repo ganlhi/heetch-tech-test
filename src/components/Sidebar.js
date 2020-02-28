@@ -4,6 +4,10 @@ import { Heading } from '@heetch/flamingo-react';
 import { NavigationItemShape } from '../lib/proptypes';
 import NavItems from './NavItem';
 
+/**
+ * Main application sidebar. Contains the title and the navigation menu
+ * @param tree Navigation items tree
+ */
 function Sidebar({ tree }) {
   return (
     <aside>

@@ -4,6 +4,15 @@ import { Actions } from '../lib/proptypes';
 import { Alert, Button, Heading } from '@heetch/flamingo-react';
 import EditPanel from './EditPanel';
 
+/**
+ * Container component handling generic logic to load list data, edit and create items.
+ * @param actions Permitted actions for the current scope
+ * @param title Title of the page
+ * @param itemName Name of an individual item
+ * @param fetchItems Function to request items list
+ * @param saveItem Function to request item update or creation
+ * @param renderList Function to render a specific list component
+ */
 function WithActions({ actions, title, itemName, fetchItems, saveItem, renderList }) {
   const [items, setItems] = useState(undefined);
   const [editedItem, setEditedItem] = useState(undefined);

@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { Product } from '../lib/proptypes';
 import { IconButton, Popover, Spinner, Table, Text } from '@heetch/flamingo-react';
 
+/**
+ * Presentational component displaying a list of products
+ * @param products List of products
+ * @param onStartEdit Callback to trigger edit mode for a given product
+ */
 function ProductsList({ products, onStartEdit }) {
   return (
     <>

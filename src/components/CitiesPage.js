@@ -6,6 +6,10 @@ import NoMatch from './NoMatch';
 import WithActions from './WithActions';
 import CitiesList from './CitiesList';
 
+/**
+ * Routed component allowing to display, create and update cities of a country
+ * @param actionsMap map of permitted actions for each slug
+ */
 function CitiesPage({ actionsMap }) {
   const { pathname } = useLocation();
 

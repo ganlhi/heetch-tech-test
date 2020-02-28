@@ -2,6 +2,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Alert } from '@heetch/flamingo-react';
 
+/**
+ * Component to display on unmatched routes
+ */
 function NoMatch() {
   const { pathname } = useLocation();
 

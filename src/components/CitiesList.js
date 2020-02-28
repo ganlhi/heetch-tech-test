@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { Product } from '../lib/proptypes';
 import { Heading, IconButton, Popover, Spinner, Table, Text } from '@heetch/flamingo-react';
 
+/**
+ * Presentational component displaying a list of the cities of a country
+ * @param countryCities contains the country, the capital name and the list of cities
+ * @param onStartEdit callback to trigger edit mode for a given city
+ */
 function CitiesList({ countryCities, onStartEdit }) {
   return (
     <>

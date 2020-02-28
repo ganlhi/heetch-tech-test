@@ -4,6 +4,10 @@ import { Item } from '@heetch/flamingo-react';
 import { NavLink } from 'react-router-dom';
 import { NavigationItemShape } from '../lib/proptypes';
 
+/**
+ * Multi-level navigation menu
+ * @param items Array of navigation items (recursive)
+ */
 function NavItems({ items }) {
   return items.map(item => <NavItem key={item.name} item={item} />);
 }
@@ -12,6 +16,12 @@ NavItems.propTypes = {
   items: PropTypes.arrayOf(NavigationItemShape),
 };
 
+/**
+ * Displays a single navigation item
+ * @param name Display name
+ * @param slug URL slug to route to
+ * @param children Sub-menu items
+ */
 function NavItem({ item: { name, slug, children } }) {
   const [expanded, setExpanded] = useState(false);
 

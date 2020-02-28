@@ -4,7 +4,7 @@ function compareByOrder(a, b) {
   return a.order - b.order;
 }
 
-/**
+/*
  * Permissions
  */
 
@@ -12,7 +12,7 @@ export function fetchPermissions() {
   return fetch(`${API_BASE_URL}/permissions`).then(res => res.json());
 }
 
-/**
+/*
  * Navigation
  */
 
@@ -55,7 +55,7 @@ function sortPermissions(permissions) {
     .sort(({ item: a }, { item: b }) => compareByOrder(a, b));
 }
 
-/**
+/*
  * Products
  */
 
@@ -84,7 +84,7 @@ export function saveProduct(url, method, product) {
   });
 }
 
-/**
+/*
  * Cities
  */
 
