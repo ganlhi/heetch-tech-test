@@ -68,8 +68,16 @@ export function fetchProducts(url, method) {
 export function saveProduct(url, method, product) {
   const { id, name, description } = product;
   const completeUrl = !id ? url : url.replace('{id}', id);
+  const body = !id ? { name, description } : { name, description, id };
 
-  return fetch(completeUrl, { method, body: JSON.stringify({ name, description }) });
+  return fetch(completeUrl, {
+    method,
+    body: JSON.stringify(body),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
 }
 
 /**

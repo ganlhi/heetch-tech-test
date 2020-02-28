@@ -19,12 +19,18 @@ import { fetchProducts, saveProduct } from '../lib/api';
 function ProductsPage({ actions }) {
   const [products, setProducts] = useState(undefined);
   const [editedProduct, setEditedProduct] = useState(undefined);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (actions && actions.getItems) {
-      fetchProducts(actions.getItems.URL, actions.getItems.type).then(setProducts);
-    }
+    loadProductsList().then(setProducts);
   }, [actions]);
+
+  function loadProductsList() {
+    if (actions && actions.getItems) {
+      return fetchProducts(actions.getItems.URL, actions.getItems.type);
+    }
+    return Promise.reject('Not permitted');
+  }
 
   function startCreate() {
     if (!actions.addItem) return;
@@ -42,10 +48,15 @@ function ProductsPage({ actions }) {
 
   function completeEdit() {
     if (!editedProduct) return;
-    console.log('EDIT', editedProduct);
     const action = !editedProduct.id ? actions.addItem : actions.updateItem;
-    saveProduct(action.URL, action.type, editedProduct);
-    setEditedProduct(undefined);
+    setSaving(true);
+    saveProduct(action.URL, action.type, editedProduct)
+      .then(() => loadProductsList())
+      .then(products => {
+        setSaving(false);
+        setEditedProduct(undefined);
+        setProducts(products);
+      });
   }
 
   function handleChangeName(event) {
@@ -107,10 +118,10 @@ function ProductsPage({ actions }) {
         onClose={() => cancelEdit()}
         footer={
           <>
-            <Button intent="secondary" variant="minimal" onClick={() => cancelEdit()}>
+            <Button intent="secondary" variant="minimal" onClick={() => cancelEdit()} disabled={saving}>
               Cancel
             </Button>
-            <Button onClick={() => completeEdit()} disabled={!isFormValid()}>
+            <Button onClick={() => completeEdit()} disabled={!isFormValid() || saving}>
               Save
             </Button>
           </>
@@ -120,12 +131,28 @@ function ProductsPage({ actions }) {
           <>
             <div>
               <Label htmlFor="name">Name</Label>
-              <Input onChange={handleChangeName} id="name" value={editedProduct.name} invalid={!isFormValid()} />
+              <Input
+                onChange={handleChangeName}
+                id="name"
+                value={editedProduct.name}
+                invalid={!isFormValid()}
+                disabled={saving}
+              />
             </div>
             <div>
               <Label htmlFor="description">Description</Label>
-              <Textarea onChange={handleChangeDescription} id="description" value={editedProduct.description} />
+              <Textarea
+                onChange={handleChangeDescription}
+                id="description"
+                value={editedProduct.description}
+                disabled={saving}
+              />
             </div>
+            {saving && (
+              <Text>
+                <Spinner /> Saving...
+              </Text>
+            )}
           </>
         )}
       </SidePanel>
