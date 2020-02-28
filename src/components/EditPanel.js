@@ -25,7 +25,7 @@ function EditPanel({ title, values, onCancel, onSave, saving, savingError }) {
     setName(e.target.value);
   }
 
-  function hansetDescriptionChange(e) {
+  function handleDescriptionChange(e) {
     setDescription(e.target.value);
   }
 
@@ -54,7 +54,7 @@ function EditPanel({ title, values, onCancel, onSave, saving, savingError }) {
           </div>
           <div>
             <Label htmlFor="description">Description</Label>
-            <Textarea onChange={hansetDescriptionChange} id="description" value={description} disabled={saving} />
+            <Textarea onChange={handleDescriptionChange} id="description" value={description} disabled={saving} />
           </div>
           {saving && (
             <Text>

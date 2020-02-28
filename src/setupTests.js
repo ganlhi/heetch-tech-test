@@ -13,3 +13,5 @@ global.document.createRange = () => ({
     ownerDocument: document,
   },
 });
+
+global.emptyFn = () => {};

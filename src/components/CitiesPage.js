@@ -18,6 +18,7 @@ function CitiesPage({ actionsMap }) {
     actions = actionsMap[pathname] || { show: false };
   }
 
+  // In this case, no found actions mean the current slug is unknown, so it is like a 404 error.
   if (!actions) {
     return <NoMatch />;
   }

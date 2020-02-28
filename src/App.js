@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { fetchNavigation } from './lib/api';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Alert, Heading } from '@heetch/flamingo-react';
 import Sidebar from './components/Sidebar';
 import NoMatch from './components/NoMatch';

@@ -30,7 +30,7 @@ function WithActions({ actions, title, itemName, fetchItems, saveItem, renderLis
           console.error('Error while loading list of ' + itemName, err);
         });
     }
-    return Promise.reject('Not permitted');
+    return Promise.resolve();
   }, [actions, fetchItems, itemName]);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ function WithActions({ actions, title, itemName, fetchItems, saveItem, renderLis
       });
   }
 
-  if (!actions || actions.show !== true) {
+  if (!actions || actions.show !== true || !actions.getItems) {
     return <Alert type="error">You are not allowed to display this page</Alert>;
   }
 
