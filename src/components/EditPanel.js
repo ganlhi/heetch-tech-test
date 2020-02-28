@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Input, Label, SidePanel, Spinner, Text, Textarea } from '@heetch/flamingo-react';
+import { Alert, Button, Input, Label, SidePanel, Spinner, Text, Textarea } from '@heetch/flamingo-react';
 
 /**
  * Generic component displaying a form in a sliding side panel, allowing to edit name and description of a given item
@@ -10,7 +10,7 @@ import { Button, Input, Label, SidePanel, Spinner, Text, Textarea } from '@heetc
  * @param onSave Callback to submit the values of the form
  * @param saving Is the form data being saved?
  */
-function EditPanel({ title, values, onCancel, onSave, saving }) {
+function EditPanel({ title, values, onCancel, onSave, saving, savingError }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
@@ -63,6 +63,8 @@ function EditPanel({ title, values, onCancel, onSave, saving }) {
           )}
         </>
       )}
+
+      {savingError && <Alert type="error">Error while saving. Please retry...</Alert>}
     </SidePanel>
   );
 }
@@ -76,6 +78,7 @@ EditPanel.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   saving: PropTypes.bool,
+  savingError: PropTypes.bool,
 };
 
 export default EditPanel;

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from '../lib/proptypes';
-import { Alert, Button, Heading } from '@heetch/flamingo-react';
+import { Alert, Button, Heading, Link } from '@heetch/flamingo-react';
 import EditPanel from './EditPanel';
 
 /**
@@ -17,17 +17,25 @@ function WithActions({ actions, title, itemName, fetchItems, saveItem, renderLis
   const [items, setItems] = useState(undefined);
   const [editedItem, setEditedItem] = useState(undefined);
   const [saving, setSaving] = useState(false);
+  const [loadingError, setLoadingError] = useState(false);
+  const [savingError, setSavingError] = useState(false);
 
   const loadItems = useCallback(() => {
     if (actions && actions.getItems) {
-      return fetchItems(actions.getItems.URL, actions.getItems.type);
+      setLoadingError(false);
+      return fetchItems(actions.getItems.URL, actions.getItems.type)
+        .then(setItems)
+        .catch(err => {
+          setLoadingError(true);
+          console.error('Error while loading list of ' + itemName, err);
+        });
     }
     return Promise.reject('Not permitted');
-  }, [actions, fetchItems]);
+  }, [actions, fetchItems, itemName]);
 
   useEffect(() => {
     setItems(undefined);
-    loadItems().then(setItems);
+    loadItems();
   }, [loadItems]);
 
   function startCreate() {
@@ -50,13 +58,19 @@ function WithActions({ actions, title, itemName, fetchItems, saveItem, renderLis
     const action = !editedItem.id ? actions.addItem : actions.updateItem;
 
     setSaving(true);
+    setSavingError(false);
 
     saveItem(action.URL, action.type, { ...editedItem, name, description })
       .then(() => loadItems())
-      .then(items => {
-        setSaving(false);
+      .then(() => {
         setEditedItem(undefined);
-        setItems(items);
+      })
+      .catch(err => {
+        setSavingError(true);
+        console.error('Error while saving ' + itemName, err);
+      })
+      .finally(() => {
+        setSaving(false);
       });
   }
 
@@ -73,10 +87,21 @@ function WithActions({ actions, title, itemName, fetchItems, saveItem, renderLis
 
       {renderList(items, startEdit)}
 
+      {loadingError && (
+        <Alert type="error">
+          Error while loading the list. Please{' '}
+          <Link style={{ cursor: 'pointer' }} onClick={() => loadItems()}>
+            retry
+          </Link>
+          ...
+        </Alert>
+      )}
+
       <EditPanel
         title={(editedItem?.id ? 'Update ' : 'Add new ') + itemName}
         values={editedItem}
         saving={saving}
+        savingError={savingError}
         onSave={completeEdit}
         onCancel={cancelEdit}
       />
