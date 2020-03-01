@@ -7,6 +7,7 @@ import Sidebar from './components/Sidebar';
 import NoMatch from './components/NoMatch';
 import ProductsPage from './components/ProductsPage';
 import CitiesPage from './components/CitiesPage';
+import Home from './components/Home';
 
 function App() {
   const [navigation, setNavigation] = useState(undefined);
@@ -41,7 +42,7 @@ function App() {
         <section>
           <Switch>
             <Route exact path="/">
-              <Heading level={1}>Home</Heading>
+              <Home />
             </Route>
             <Route path="/products">
               <ProductsPage actions={navigation.actions['/products']} />
