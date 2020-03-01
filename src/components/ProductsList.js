@@ -9,26 +9,28 @@ import { IconButton, Popover, Spinner, Table, Text } from '@heetch/flamingo-reac
  * @param onStartEdit Callback to trigger edit mode for a given product
  */
 function ProductsList({ products, onStartEdit }) {
+  const columns = [
+    { Header: 'Name', accessor: 'name' },
+    { Header: 'Description', accessor: 'description' },
+    { Header: 'Status', accessor: 'status' },
+  ];
+
+  if (typeof onStartEdit === 'function') {
+    columns.push({
+      Header: '',
+      accessor: '',
+      id: 'actions',
+      Cell: ({ row }) => (
+        <Popover content="Edit product">
+          <IconButton icon="IconPen" size="s" onClick={() => onStartEdit(row.original)} />
+        </Popover>
+      ),
+    });
+  }
+
   return (
     <>
-      <Table
-        columns={[
-          { Header: 'Name', accessor: 'name' },
-          { Header: 'Description', accessor: 'description' },
-          { Header: 'Status', accessor: 'status' },
-          {
-            Header: '',
-            accessor: '',
-            id: 'actions',
-            Cell: ({ row }) => (
-              <Popover content="Edit product">
-                <IconButton icon="IconPen" size="s" onClick={() => onStartEdit(row.original)} />
-              </Popover>
-            ),
-          },
-        ]}
-        data={products || []}
-      />
+      <Table columns={columns} data={products || []} />
       {!products && (
         <Text style={{ textAlign: 'center' }}>
           <Spinner /> Loading products...
@@ -40,7 +42,7 @@ function ProductsList({ products, onStartEdit }) {
 
 ProductsList.propTypes = {
   products: PropTypes.arrayOf(Product),
-  onStartEdit: PropTypes.func.isRequired,
+  onStartEdit: PropTypes.func,
 };
 
 export default ProductsList;

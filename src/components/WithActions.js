@@ -82,10 +82,10 @@ function WithActions({ actions, title, itemName, fetchItems, saveItem, renderLis
     <>
       <header style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Heading level={2}>{title}</Heading>
-        <Button onClick={() => startCreate()}>Add</Button>
+        {actions.addItem && <Button onClick={() => startCreate()}>Add</Button>}
       </header>
 
-      {renderList(items, startEdit)}
+      {renderList(items, actions.updateItem ? startEdit : undefined)}
 
       {loadingError && (
         <Alert type="error">

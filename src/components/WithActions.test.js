@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import WithActions from './WithActions';
 
 const fetchItems = () => Promise.resolve([]);
@@ -55,5 +55,35 @@ describe('WithActions', () => {
     );
     const listContent = await findByText(/Fake list content \(0 items\)/);
     expect(listContent).toBeInTheDocument();
+  });
+  test('Cannot add item if not permitted', async () => {
+    await act(async () => {
+      const { queryByText } = render(
+        <WithActions
+          title="Title"
+          actions={{ show: true, getItems: { URL: '', type: '' } }}
+          fetchItems={fetchItems}
+          renderList={renderList}
+          saveItem={global.emptyFn}
+        />
+      );
+      const addBtn = await queryByText('Add');
+      expect(addBtn).toBeNull();
+    });
+  });
+  test('Can add item if permitted', async () => {
+    await act(async () => {
+      const { queryByText } = render(
+        <WithActions
+          title="Title"
+          actions={{ show: true, getItems: { URL: '', type: '' }, addItem: { URL: '', type: '' } }}
+          fetchItems={fetchItems}
+          renderList={renderList}
+          saveItem={global.emptyFn}
+        />
+      );
+      const addBtn = await queryByText('Add');
+      expect(addBtn).toBeTruthy();
+    });
   });
 });
